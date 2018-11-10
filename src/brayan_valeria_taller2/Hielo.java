@@ -5,10 +5,16 @@ import processing.core.PImage;
 
 public class Hielo extends Bonificador implements Runnable {
 	private PImage hielo;
+private int dir;
+	private boolean vivo;
+	private Thread hilo;
 
 	public Hielo(PApplet app) {
 		super(app);
 		hielo = app.loadImage("hielo.png");
+	
+		vivo=true;
+		dir=1;
 	}
 
 	@Override
@@ -20,12 +26,34 @@ public class Hielo extends Bonificador implements Runnable {
 	}
 
 	public void mover() {
-
-	}
+	      y+= 1*dir;
+			 
+	       if(y>= app.width-100 || y<= 0) {
+	    	   dir*=-1;
+	       }
+       
+      	}
+	
+	
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+         while(vivo) {
+        	 try {
+        		 mover();
+				hilo.sleep(400);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+         }
 
 	}
+	
+	public void start() {
+		hilo= new Thread(this);
+		hilo.start();
+	}
+	
+
 }

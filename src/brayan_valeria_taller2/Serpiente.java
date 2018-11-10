@@ -9,9 +9,10 @@ import processing.core.PImage;
 public class Serpiente extends Thread {
 	private PApplet app;
 	private PImage cabeza1, cabeza2, cabeza3, cabeza4, segmento;
+
 	private int up = 1, down = 2, left = 3, right = 4;
 	private int direction, contadorHielo, contadorCafe, contadorDientes;
-	private boolean vivo, congelado, encafeinado, dientes;
+	private boolean vivo, congelado, encafeinado, dientes, hongo;
 	private int n = 1;
 	private float tam;
 	private LinkedList<Float> x, y;
@@ -27,6 +28,7 @@ public class Serpiente extends Thread {
 		cabeza3 = app.loadImage("headright.png");
 		cabeza4 = app.loadImage("headleft.png");
 		segmento = app.loadImage("body.png");
+	
 		tam = 20;
 		contadorHielo = 0;
 		contadorCafe = 0;
@@ -35,6 +37,7 @@ public class Serpiente extends Thread {
 		encafeinado = false;
 		congelado = false;
 		dientes = false;
+		hongo=false;
 		direction = right;
 		x.add(50.0f);
 		y.add(50.0f);
@@ -44,8 +47,12 @@ public class Serpiente extends Thread {
 	public void pintar() {
 		// serpiente
 		crearSerpiente();
+		
+	
 	}
-
+/**
+ * Se establece los estados de la serpiente (crecer, perder fresas), la interaccion con el enemigo, con los bonificadores, las fresas
+ */
 	public void run() {
 		try {
 			while (vivo) {
@@ -54,6 +61,7 @@ public class Serpiente extends Thread {
 				}
 				if (congelado == true) {
 					contadorHielo++;
+					
 				}
 				if (contadorHielo == 40) {
 					contadorHielo = 0;
@@ -79,12 +87,15 @@ public class Serpiente extends Thread {
 				}
 				if (validar(mundo.getRecurso()) == true) {
 					agregarCola();
+					mundo.masContadorFresa(1);
 					mundo.getRecurso().ponerFresa();
 				}
 				for (int i = 0; i < mundo.getBonificadores().size(); i++) {
 					if (validarBonificador(mundo.getBonificadores().get(i)) == true) {
 						if (mundo.getBonificadores().get(i) instanceof Hongo) {
+							hongo=true;
 							quitarColaMitad();
+							mundo.BajarContadorFresa(mundo.getContadorFresa()/2);
 						}
 						if (mundo.getBonificadores().get(i) instanceof Hielo) {
 							congelado = true;
@@ -104,6 +115,7 @@ public class Serpiente extends Thread {
 							&& mundo.getAranas().get(i).getFresas() >= 1) {
 						mundo.getAranas().get(i).quitarFresa();
 						agregarCola();
+						mundo.masContadorFresa(1);
 					}
 					if (validarArana(mundo.getAranas().get(i)) == true && n > mundo.getAranas().get(i).getFresas()
 							&& mundo.getAranas().get(i).getFresas() >= 1 && dientes == true) {
@@ -119,7 +131,9 @@ public class Serpiente extends Thread {
 			e.printStackTrace();
 		}
 	}
-
+/**
+ * Este metodo se encarga de la creacion de la serpiente
+ */
 	void crearSerpiente() {
 		for (int i = 0; i < n; i++) {
 			float xLocation = x.get(i);
@@ -158,6 +172,11 @@ public class Serpiente extends Thread {
 		}
 	}
 
+	/**
+	 * Validacion de contacto entre serpiente y fresa
+	 * @param fresa
+	 * @return verdadero si hay "contacto" con un recurso fresa, de lo contrario falso
+	 */
 	public boolean validar(Recurso fresa) {
 		if (PApplet.dist(x.get(x.size() - 1), y.get(y.size() - 1), fresa.getX(), fresa.getY()) < tam) {
 			return true;
@@ -166,7 +185,11 @@ public class Serpiente extends Thread {
 
 		}
 	}
-
+	/**
+	 * Validacion de contacto entre serpiente y bonificador
+	 * @param boni
+	 * @return verdadero si hay "contacto" con un bonificador, de lo contrario falso
+	 */
 	public boolean validarBonificador(Bonificador boni) {
 		if (PApplet.dist(x.get(x.size() - 1), y.get(y.size() - 1), boni.getX(), boni.getY()) < tam) {
 			return true;
@@ -174,7 +197,11 @@ public class Serpiente extends Thread {
 			return false;
 		}
 	}
-
+/**
+ * Validacion de contacto entre serpiente y araña
+ * @param a  araña
+ * @return verdadero si hay "contacto" con una araña, de lo contrario falso
+ */
 	public boolean validarArana(Arana a) {
 		if (PApplet.dist(x.get(x.size() - 1), y.get(y.size() - 1), a.getPos().x, a.getPos().y) < tam) {
 			return true;
@@ -182,7 +209,9 @@ public class Serpiente extends Thread {
 			return false;
 		}
 	}
-
+/**
+ * movimiento cuerpo de la serpiente
+ */
 	void moverSerpiente() {
 
 		if (direction == right) {
@@ -211,7 +240,9 @@ public class Serpiente extends Thread {
 			y.remove(0);
 		}
 	}
-
+/**
+ * este metodo se encarga del crecimiento de la serpiente.
+ */
 	void agregarCola() {
 		n += 1;
 
@@ -271,7 +302,9 @@ public class Serpiente extends Thread {
 			break;
 		}
 	}
-
+/**
+ * cuando toma un bonificador malo pierde cuerpo.
+ */
 	public void quitarCola() {
 		if (x.size() >= 2) {
 			n -= 1;
@@ -321,8 +354,6 @@ public class Serpiente extends Thread {
 		return y;
 	}
 
-	public void eliminarSegmento() {
 
-	}
 
 }
