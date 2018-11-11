@@ -6,9 +6,19 @@ import processing.core.PImage;
 public class Hongo extends Bonificador implements Runnable {
 	private PImage hongo;
 
+	private int dir;
+	private boolean vivo;
+	private Thread hilo;
+
 	public Hongo(PApplet app) {
 		super(app);
 		hongo = app.loadImage("hongo.png");
+		dir=1;
+		vivo=true;
+	
+		
+		
+		
 	}
 
 	@Override
@@ -20,13 +30,32 @@ public class Hongo extends Bonificador implements Runnable {
 	}
 
 	public void mover() {
-
+		
+	      x+= 1*dir;
+		 
+	       if(x>= app.width-100 || x<= 0) {
+	    	   dir*=-1;
+	       }
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+	    while(vivo) {
+       	 try {
+       		 mover();
+				hilo.sleep(400);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+
 
 	}
+	public void start() {
+		hilo= new Thread(this);
+		hilo.start();
+	}
+	
 
 }

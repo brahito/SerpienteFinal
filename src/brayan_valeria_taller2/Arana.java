@@ -25,6 +25,10 @@ public abstract class Arana extends Thread {
 
 	public abstract void pintar();
 
+	/**
+	 * Se establece los estados de cada araña (crecer, perder fresas, velocidad), la
+	 * interaccion con la serpiente, con los bonificadores, las fresas
+	 */
 	public void run() {
 		try {
 			while (vivo) {
@@ -90,7 +94,7 @@ public abstract class Arana extends Thread {
 				}
 				if (validarSerpiente(mundo.getSer()) && fresas > mundo.getSer().getN() && mundo.getSer().getN() >= 1) {
 					mundo.getSer().quitarCola();
-					fresas++;
+					fresas--;
 				}
 				if (validarSerpiente(mundo.getSer()) && fresas > mundo.getSer().getN() && mundo.getSer().getN() >= 1
 						&& dientes == true) {
@@ -117,6 +121,13 @@ public abstract class Arana extends Thread {
 		fresas -= fresas;
 	}
 
+	/**
+	 * Validacion de contacto entre araña y fresa
+	 * 
+	 * @param fresa
+	 * @return verdadero si hay "contacto" con un recurso fresa, de lo contrario
+	 *         falso
+	 */
 	public boolean validar(Recurso fresa) {
 		if (PApplet.dist(pos.x, pos.y, fresa.getX(), fresa.getY()) < fresa.getTam()) {
 			return true;
@@ -126,15 +137,12 @@ public abstract class Arana extends Thread {
 		}
 	}
 
-	public boolean validar(Bonificador b) {
-		if (PApplet.dist(pos.x, pos.y, b.getX(), b.getY()) < b.getTam()) {
-			return true;
-		} else {
-			return false;
-
-		}
-	}
-
+	/**
+	 * Validacion de contacto entre araña y bonificador
+	 * 
+	 * @param boni
+	 * @return verdadero si hay "contacto" con un bonificador, de lo contrario falso
+	 */
 	public boolean validarBonificador(Bonificador boni) {
 		if (PApplet.dist(pos.x, pos.y, boni.getX(), boni.getY()) < boni.getTam()) {
 			return true;
@@ -143,6 +151,12 @@ public abstract class Arana extends Thread {
 		}
 	}
 
+	/**
+	 * Validacion de contacto entre serpiente y araña
+	 * 
+	 * @param s serpiente
+	 * @return verdadero si hay "contacto" con serpiente, de lo contrario falso
+	 */
 	public boolean validarSerpiente(Serpiente s) {
 
 		if (PApplet.dist(pos.x, pos.y, s.getX().get(s.getX().size() - 1), s.getY().get(s.getY().size() - 1)) < s
@@ -173,7 +187,4 @@ public abstract class Arana extends Thread {
 
 	public abstract void mover(Recurso r);
 
-	public void eliminarAraña() {
-
-	}
 }

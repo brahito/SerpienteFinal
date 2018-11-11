@@ -18,5 +18,7 @@ public class Cafe extends Bonificador {
 		app.image(cafe, x, y, tam, tam);
 		app.imageMode(app.CORNER);
 	}
+	
+
 
 }
