@@ -1,5 +1,9 @@
 package brayan_valeria_taller2;
 
+import de.voidplus.leapmotion.CircleGesture;
+import de.voidplus.leapmotion.KeyTapGesture;
+import de.voidplus.leapmotion.ScreenTapGesture;
+import de.voidplus.leapmotion.SwipeGesture;
 import processing.core.PApplet;
 
 public class Main extends PApplet {
@@ -30,5 +34,6 @@ public class Main extends PApplet {
 	public void mousePressed() {
 		log.mouse();
 	}
+
 
 }

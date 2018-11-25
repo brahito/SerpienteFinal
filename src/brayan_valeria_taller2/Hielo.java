@@ -26,9 +26,9 @@ private int dir;
 	}
 
 	public void mover() {
-	      y+= 1*dir;
+		y += dir;
 			 
-	       if(y>= app.width-100 || y<= 0) {
+	       if(y>= app.height || y<= 0) {
 	    	   dir*=-1;
 	       }
        

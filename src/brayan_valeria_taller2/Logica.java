@@ -3,10 +3,11 @@ package brayan_valeria_taller2;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Logica {
+public class Logica{
 	private PApplet app;
 	private Mundo mundo;
 	private int pantalla;
+	
 
 	private PImage fondo1, fondo2, inicio, iniciarJuego, irInstruc, instrucc, juego, ganar, perder, irInicio;
 	private int contador, tiempo;
@@ -24,9 +25,10 @@ public class Logica {
 		juego = app.loadImage("data/juego.png");
 		ganar = app.loadImage("data/ganaste.png");
 		perder = app.loadImage("data/perdiste.png");
-		irInicio= app.loadImage("data/irInicio.png");
+		irInicio = app.loadImage("data/irInicio.png");
 		contador = 90;
 		pantalla = 1;
+		
 
 	}
 
@@ -111,18 +113,20 @@ public class Logica {
 
 			}
 		}
-		
-		if(pantalla==4) {
+
+		if (pantalla == 4) {
 			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 480 && app.mouseY < 520) {
-				pantalla=1;
+				pantalla = 1;
 			}
 		}
-		
-		if(pantalla==5) {
+
+		if (pantalla == 5) {
 			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 480 && app.mouseY < 520) {
-				pantalla=1;
+				pantalla = 1;
 			}
 		}
 
 	}
+
+	
 }

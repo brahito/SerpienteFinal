@@ -31,9 +31,9 @@ public class Hongo extends Bonificador implements Runnable {
 
 	public void mover() {
 		
-	      x+= 1*dir;
+	      x+= dir;
 		 
-	       if(x>= app.width-100 || x<= 0) {
+	       if(x>= app.width || x<= 0) {
 	    	   dir*=-1;
 	       }
 	}

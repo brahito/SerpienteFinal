@@ -25,7 +25,6 @@ public class Mundo {
 		fresa = new Recurso(app);
 		aranas = new ArrayList<Arana>();
 		bonificadores = new LinkedList<Bonificador>();
-
 		serpiente = new Serpiente(app, this);
 
 		for (int i = 0; i < 3; i++) {
