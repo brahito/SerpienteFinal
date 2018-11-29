@@ -16,6 +16,7 @@ public class AranaA extends Arana {
 	@Override
 	public void pintar() {
 		app.imageMode(PApplet.CENTER);
+
 		app.image(arana, pos.x, pos.y, tam, tam);
 		app.text(fresas, pos.x + tam / 2, pos.y);
 		app.imageMode(PApplet.CORNER);
@@ -23,6 +24,9 @@ public class AranaA extends Arana {
 	}
 
 	@Override
+	/**
+	 * Movimiento de las arañaA, persigue las fresas
+	 */
 	public void mover(Recurso r) {
 		PVector seguir = new PVector(r.getX(), r.getY());
 		PVector dir = PVector.sub(seguir, pos);

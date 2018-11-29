@@ -14,7 +14,9 @@ public abstract class Bonificador {
 	}
 
 	public abstract void pintar();
-
+	/**
+	 * se pone en un posicion random
+	 */
 	public void ponerBonificador() {
 		x = (int) app.random((app.width - tam) - 1100, (app.width - tam) - 100);
 		y = (int) app.random((app.height - tam) - 600, (app.height - tam) - 100);
