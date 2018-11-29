@@ -13,7 +13,7 @@ public class Hongo extends Bonificador implements Runnable {
 	public Hongo(PApplet app) {
 		super(app);
 		hongo = app.loadImage("hongo.png");
-		dir=1;
+		dir=5;
 		vivo=true;
 	
 		
@@ -43,7 +43,7 @@ public class Hongo extends Bonificador implements Runnable {
 	    while(vivo) {
        	 try {
        		 mover();
-				hilo.sleep(400);
+				hilo.sleep(17);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

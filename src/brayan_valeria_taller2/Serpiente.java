@@ -352,15 +352,26 @@ public class Serpiente extends Thread {
 	}
 
 	public void mover() {
-		if (app.keyCode == app.UP)
-			direction = up;
-		if (app.keyCode == app.DOWN)
-			direction = down;
-		if (app.keyCode == app.LEFT)
-			direction = left;
-		if (app.keyCode == app.RIGHT)
-			direction = right;
-
+		if (direction == right) {
+		      if (app.key == 'w') direction = up;
+		      if (app.key == 's') direction = down;
+		      if (app.key == 'd') direction = right;
+		    }
+		    if (direction == left) {
+		      if (app.key == 'w') direction = up;
+		      if (app.key == 's') direction = down;
+		      if (app.key == 'a') direction = left;
+		    }
+		    if (direction == up) {
+		      if (app.key == 'w') direction = up;
+		      if (app.key == 'a') direction = left;
+		      if (app.key == 'd') direction = right;
+		    }
+		    if (direction == down) {
+		      if (app.key == 's') direction = down;
+		      if (app.key == 'a') direction = left;
+		      if (app.key == 'd') direction = right;
+		    }
 	}
 
 	public LinkedList<Float> getX() {

@@ -3,18 +3,18 @@ package brayan_valeria_taller2;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Logica{
+public class Logica {
 	private PApplet app;
 	private Mundo mundo;
 	private int pantalla;
-	
 
 	private PImage fondo1, fondo2, inicio, iniciarJuego, irInstruc, instrucc, juego, ganar, perder, irInicio;
 	private int contador, tiempo;
+	private int last;
 
 	public Logica(PApplet app) {
 		this.app = app;
-		mundo = new Mundo(app);
+
 		// carga de imagenes de interfaz
 		fondo1 = app.loadImage("data/fondo arena.png");
 		fondo2 = app.loadImage("data/fondo bosque.png");
@@ -26,10 +26,10 @@ public class Logica{
 		ganar = app.loadImage("data/ganaste.png");
 		perder = app.loadImage("data/perdiste.png");
 		irInicio = app.loadImage("data/irInicio.png");
-		contador = 90;
 		pantalla = 1;
-		
-
+		last = 0;
+		contador = 0;
+		tiempo = 90;
 	}
 
 	public void pintar() {
@@ -49,17 +49,22 @@ public class Logica{
 
 			break;
 		case 3:
+
 			app.image(fondo1, 0, 0);
 			mundo.pintar();
 			app.image(fondo2, 0, 0);
 
 			app.image(juego, 0, 0);
-
 			app.fill(0);
 			app.textSize(30);
 			app.text(mundo.getContadorFresa(), 1126, 52);
+			contador = app.millis() - last;
+			if (app.millis() > last + 1000) {
+				last = app.millis();
+				tiempo--;
+			}
+//			tiempo = contador - (app.millis() / 1000);
 
-			tiempo = contador - (app.millis() / 1000);
 			app.text(tiempo, 972, 52);
 
 			if (tiempo == 0) {
@@ -85,7 +90,7 @@ public class Logica{
 		case 5:
 
 			app.image(perder, 0, 0);
-			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 480 && app.mouseY < 520) {
+			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 295 && app.mouseY < 335) {
 				app.image(irInicio, 0, 0);
 			}
 			break;
@@ -100,6 +105,8 @@ public class Logica{
 	public void mouse() {
 		if (pantalla == 1) {
 			if (app.mouseX > 450 && app.mouseX < 700 && app.mouseY > 400 && app.mouseY < 440) {
+				mundo = new Mundo(app);
+				mundo.start();
 				pantalla = 3;
 			}
 			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 480 && app.mouseY < 520) {
@@ -115,18 +122,18 @@ public class Logica{
 		}
 
 		if (pantalla == 4) {
-			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 480 && app.mouseY < 520) {
+			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 295 && app.mouseY < 335) {
 				pantalla = 1;
+
 			}
 		}
 
 		if (pantalla == 5) {
-			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 480 && app.mouseY < 520) {
+			if (app.mouseX > 450 && app.mouseX < 720 && app.mouseY > 295 && app.mouseY < 335) {
 				pantalla = 1;
 			}
 		}
 
 	}
 
-	
 }

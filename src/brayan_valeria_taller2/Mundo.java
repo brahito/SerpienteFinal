@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import processing.core.PApplet;
 
-public class Mundo {
+public class Mundo extends Thread {
 	private PApplet app;
 
 	private ArrayList<Arana> aranas;
@@ -13,6 +13,7 @@ public class Mundo {
 	private int contadorFresas, generarBonificador;
 	private Serpiente serpiente;
 	private Recurso fresa;
+	private boolean vivo;
 
 	/**
 	 * Inicializar mundo
@@ -22,6 +23,7 @@ public class Mundo {
 
 	public Mundo(PApplet app) {
 		this.app = app;
+		vivo = true;
 		fresa = new Recurso(app);
 		aranas = new ArrayList<Arana>();
 		bonificadores = new LinkedList<Bonificador>();
@@ -41,17 +43,6 @@ public class Mundo {
 		serpiente.start();
 
 		contadorFresas = 0;
-		for (int i = 0; i < bonificadores.size(); i++) {
-
-			if (bonificadores.get(i) instanceof Hielo) {
-				Hielo h = (Hielo) bonificadores.get(i);
-				h.start();
-			}
-			if (bonificadores.get(i) instanceof Hongo) {
-				Hongo h = (Hongo) bonificadores.get(i);
-				h.start();
-			}
-		}
 
 	}
 
@@ -62,42 +53,59 @@ public class Mundo {
 		fresa.pintar();
 		serpiente.pintar();
 
-		generarBonificador++;
 		for (int i = 0; i < aranas.size(); i++) {
 			aranas.get(i).pintar();
 		}
-		if (generarBonificador >= 400) {
-			int generar = (int) app.random(1, 5);
-			switch (generar) {
-			case 1:
-				bonificadores.add(new Cafe(app));
-				break;
-			case 2:
-				bonificadores.add(new Hielo(app));
 
-				break;
-			case 3:
-				bonificadores.add(new Dientes(app));
-				break;
-			case 4:
-				bonificadores.add(new Hongo(app));
-				break;
-			}
-			generarBonificador = 0;
-		}
 		for (int i = 0; i < bonificadores.size(); i++) {
 			bonificadores.get(i).pintar();
 
-			if (bonificadores.get(i) instanceof Hielo) {
-				Hielo h = (Hielo) bonificadores.get(i);
-				h.start();
-			}
-			if (bonificadores.get(i) instanceof Hongo) {
-				Hongo h = (Hongo) bonificadores.get(i);
-				h.start();
-			}
 		}
 
+	}
+
+	public void run() {
+		try {
+			while (vivo) {
+				generarBonificador++;
+				if (generarBonificador >= 400) {
+					int generar = (int) app.random(1, 5);
+					switch (generar) {
+					case 1:
+						bonificadores.add(new Cafe(app));
+						break;
+					case 2:
+						bonificadores.add(new Hielo(app));
+
+						break;
+					case 3:
+						bonificadores.add(new Dientes(app));
+						break;
+					case 4:
+						bonificadores.add(new Hongo(app));
+						break;
+					}
+					for (int i = 0; i < bonificadores.size(); i++) {
+
+						if (bonificadores.get(i) instanceof Hielo) {
+							Hielo h = (Hielo) bonificadores.get(i);
+							System.out.println("empezo");
+							h.start();
+						}
+						if (bonificadores.get(i) instanceof Hongo) {
+							Hongo h = (Hongo) bonificadores.get(i);
+							System.out.println("empezo");
+							h.start();
+						}
+					}
+					generarBonificador = 0;
+				}
+				sleep(17);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public LinkedList<Bonificador> getBonificadores() {

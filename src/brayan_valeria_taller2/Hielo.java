@@ -14,7 +14,7 @@ private int dir;
 		hielo = app.loadImage("hielo.png");
 	
 		vivo=true;
-		dir=1;
+		dir=5;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ private int dir;
          while(vivo) {
         	 try {
         		 mover();
-				hilo.sleep(400);
+				hilo.sleep(17);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
